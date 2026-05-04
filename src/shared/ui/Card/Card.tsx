@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import type { Character } from '../../types/types';
 import { UI } from '../../data/enums';
+import styles from './styles.module.css';
 
 interface CardProps {
   character: Character;
@@ -11,20 +12,12 @@ class Card extends Component<CardProps, {}> {
     const { name, status, species, image, location } = this.props.character;
     return (
       <article
-        style={{
-          border: '1px solid #ccc',
-          margin: '10px',
-          padding: '10px',
-          borderRadius: '8px',
-          display: 'flex',
-          gap: '15px',
-          alignItems: 'center',
-        }}
+      className={styles.card}
       >
         <img
           src={image}
           alt={name}
-          style={{ width: '80px', borderRadius: '50%' }}
+          className={styles.card_img}
         />
         <div>
           <h3>

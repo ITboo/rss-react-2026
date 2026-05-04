@@ -2,6 +2,7 @@ import { Component } from 'react';
 import { CharacterContext } from '../../providers/CharactersProvider';
 import { UI } from '../../shared/data/enums';
 import { ErrorButton } from '../../shared/ui/ErrorButton/ErrorButton';
+import styles from './styles.module.css';
 
 interface HeaderState {
   inputValue: string;
@@ -33,17 +34,18 @@ export class Header extends Component<{}, HeaderState> {
 
   render() {
     return (
-      <header>
+      <header className={styles.header}>
         <ErrorButton/>
-        <div>
+        <div className={styles.search_form}>
         <input
+        className={styles.search_input}
           type="text"
           placeholder="Search..."
           value={this.state.inputValue}
           onChange={this.handleInputChange}
           onKeyDown={this.handleKeyDown}
         />
-        <button onClick={this.handleSearchClick}>{UI.SEARCH}</button>
+        <button className={styles.search_btn} onClick={this.handleSearchClick}>{UI.SEARCH}</button>
         </div>
       </header>
     );

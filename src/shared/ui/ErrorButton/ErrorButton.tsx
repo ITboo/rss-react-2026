@@ -1,4 +1,6 @@
 import { Component, type ReactNode } from "react";
+import { MESSAGES } from "../../data/enums";
+import styles from './styles.module.css';
 
 type ErrButtonProps = Record<string, never>;
 
@@ -22,13 +24,14 @@ export class ErrorButton extends Component<ErrButtonProps, State> {
       const { shouldThrowError } = this.state;
   
       if (shouldThrowError) {
-        throw new Error('Error button was clicked');
+        throw new Error(MESSAGES.ERR_BTN);
       }
   
       return (
         <button
           type="button"
           onClick={() => this.handleClick()}
+          className={styles.btn}
         >
           DO NOT PUSH
         </button>

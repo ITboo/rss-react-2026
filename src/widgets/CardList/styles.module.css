@@ -1,0 +1,4 @@
+.cardlist{
+    display: flex;
+    flex-direction: column;
+}
