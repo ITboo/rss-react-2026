@@ -1,15 +1,14 @@
 import { Component } from 'react';
 import { CharacterContext } from './providers/CharactersProvider';
 import { MainPage } from './pages/MainPage/MainPage';
-import rawData from './shared/data/items.json';
+import type { Character, CharacterContextValue } from './shared/types/types';
 
-import type { Character } from './shared/types/types';
-
-const characterData = rawData as { characters: Character[] };
 
 interface AppState {
-  characters: Character[];
+  apiCharacters: Character[];
   searchTerm: string;
+  isLoading: boolean;
+  error: string | null;
 }
 
 export class App extends Component<{}, AppState> {
@@ -17,37 +16,61 @@ export class App extends Component<{}, AppState> {
     super(props);
     const savedSearchTerm = localStorage.getItem('characterSearchTerm') || '';
     this.state = {
-      characters: characterData.characters,
+      apiCharacters: [],
       searchTerm: savedSearchTerm,
+      isLoading: true,
+      error: null,
     };
   }
 
-  handleSearch = (term: string): void => {
-    this.setState({ searchTerm: term });
+  fetchCharacters = async (search: string) => {
+    this.setState({ isLoading: true, error: null });
+    try {
+      await new Promise(resolve => setTimeout(resolve, 2000));
+  
+      const url = search.trim()
+        ? `https://rickandmortyapi.com/api/character/?name=${encodeURIComponent(search.trim())}`
+        : 'https://rickandmortyapi.com/api/character';
+  
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      this.setState({ apiCharacters: data.results || [], isLoading: false });
+    } catch (err: any) {
+      this.setState({
+        error: err.message || 'Не удалось загрузить персонажей. Попробуйте позже.',
+        isLoading: false,
+        apiCharacters: [],
+      });
+    }
   };
 
-  getFilteredCharacters = (): Character[] => {
-    const { characters, searchTerm } = this.state;
-    if (!searchTerm.trim()) return characters;
+  componentDidMount() {
+    this.fetchCharacters(this.state.searchTerm);
+  }
 
-    const lowerTerm = searchTerm.toLowerCase();
-    return characters.filter(
-      (char) =>
-        char.name.toLowerCase().includes(lowerTerm) ||
-        char.role.toLowerCase().includes(lowerTerm)
-    );
+  handleSearch = (term: string) => {
+    localStorage.setItem('characterSearchTerm', term);
+    this.setState({ searchTerm: term }, () => {
+      this.fetchCharacters(term);
+    });
   };
 
   render() {
-    const filteredCharacters = this.getFilteredCharacters();
+    const { apiCharacters, searchTerm, isLoading, error } = this.state;
+
+    const contextValue: CharacterContextValue = {
+      filteredCharacters: apiCharacters,
+      searchTerm,
+      handleSearch: this.handleSearch,
+      isLoading,
+      error,
+    };
 
     return (
-      <CharacterContext.Provider
-        value={{
-          filteredCharacters: filteredCharacters,
-          handleSearch: this.handleSearch,
-        }}
-      >
+      <CharacterContext.Provider value={contextValue}>
         <MainPage />
       </CharacterContext.Provider>
     );

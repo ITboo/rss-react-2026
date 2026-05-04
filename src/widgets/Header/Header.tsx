@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { CharacterContext } from '../../providers/CharactersProvider';
+import { UI } from '../../shared/data/enums';
 
 interface HeaderState {
   inputValue: string;
@@ -39,7 +40,7 @@ export class Header extends Component<{}, HeaderState> {
           onChange={this.handleInputChange}
           onKeyDown={this.handleKeyDown}
         />
-        <button onClick={this.handleSearchClick}>Найти</button>
+        <button onClick={this.handleSearchClick}>{UI.SEARCH}</button>
       </header>
     );
   }

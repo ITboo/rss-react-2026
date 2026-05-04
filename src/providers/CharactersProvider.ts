@@ -3,7 +3,10 @@ import type { CharacterContextValue } from '../shared/types/types';
 
 const CharacterContextType: CharacterContextValue = {
   filteredCharacters: [],
-  handleSearch: () => {},
+  handleSearch: () => { },
+  searchTerm: '',
+  isLoading: true,
+  error: ''
 };
 
 export const CharacterContext = React.createContext<CharacterContextValue>(CharacterContextType);

@@ -1,13 +1,28 @@
 export interface Character {
-    id: number;
+  id: number;
+  name: string;
+  status: string;
+  species: string;
+  type: string;
+  gender: string;
+  origin: {
     name: string;
-    role: string;
-    level: number;
-    health: number;
-    weapon: string;
-  }
-  
-  export interface CharacterContextValue {
-    filteredCharacters: Character[];
-    handleSearch: (term: string) => void;
-  }
+    url: string;
+  };
+  location: {
+    name: string;
+    url: string;
+  };
+  image: string;
+  episode: string[];
+  url: string;
+  created: string;
+}
+
+export interface CharacterContextValue {
+  filteredCharacters: Character[];
+  searchTerm: string;
+  handleSearch: (term: string) => void;
+  isLoading: boolean;
+  error: string | null;
+}
