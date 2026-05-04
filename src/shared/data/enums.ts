@@ -6,5 +6,6 @@ export enum MESSAGES {
 
 export enum UI {
   LOCATION = 'Location',
-  SEARCH = 'Search'
+  SEARCH = 'Search',
+  REFRESH = 'Refresh the page'
 }

@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import { CharacterContext } from '../../providers/CharactersProvider';
 import { UI } from '../../shared/data/enums';
+import { ErrorButton } from '../../shared/ui/ErrorButton/ErrorButton';
 
 interface HeaderState {
   inputValue: string;
@@ -33,6 +34,8 @@ export class Header extends Component<{}, HeaderState> {
   render() {
     return (
       <header>
+        <ErrorButton/>
+        <div>
         <input
           type="text"
           placeholder="Search..."
@@ -41,6 +44,7 @@ export class Header extends Component<{}, HeaderState> {
           onKeyDown={this.handleKeyDown}
         />
         <button onClick={this.handleSearchClick}>{UI.SEARCH}</button>
+        </div>
       </header>
     );
   }
