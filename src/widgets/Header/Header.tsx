@@ -34,7 +34,7 @@ export class Header extends Component<{}, HeaderState> {
 
   render() {
     return (
-      <header className={styles.header} data-testid="mock-header">
+      <header className={styles.header}>
         <ErrorButton/>
         <div className={styles.search_form}>
         <input

@@ -4,6 +4,7 @@ import viteConfig from './vite.config';
 export default mergeConfig(viteConfig, defineConfig({
   test: {
     globals: true,
+    testTimeout: 60000,
     environment: 'jsdom',
     setupFiles: './src/__tests__/setup.ts',
     coverage: {

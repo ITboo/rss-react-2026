@@ -1,19 +1,26 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { MainPage } from '../pages/MainPage/MainPage';
+import { CharacterContext } from '../providers/CharactersProvider';
 
-vi.mock('../../widgets/Header/Header', () => ({
-  Header: () => <div data-testid="mock-header">Mock Header</div>,
-}));
-
-vi.mock('../../widgets/CardList/CardList', () => ({
-  CardList: () => <div data-testid="mock-cardlist">Mock CardList</div>,
-}));
+const mockContextValue = {
+  filteredCharacters: [],
+  searchTerm: '',
+  handleSearch: () => {},
+  isLoading: false,
+  error: null,
+};
 
 describe('MainPage', () => {
   it('renders Header and CardList components', () => {
-    render(<MainPage />);
-    expect(screen.getByTestId('mock-header')).toBeInTheDocument();
-    expect(screen.getByTestId('mock-cardlist')).toBeInTheDocument();
+    render(
+      <CharacterContext.Provider value={mockContextValue}>
+        <MainPage />
+      </CharacterContext.Provider>
+    );
+    const searchInput = screen.getByPlaceholderText('Search...');
+    expect(searchInput).toBeInTheDocument();
+    const notFoundMessage = screen.getByText(/Ooops. Nothing's here/i);
+    expect(notFoundMessage).toBeInTheDocument();
   });
 });
