@@ -12,7 +12,7 @@ export class CardList extends Component<{}, {}> {
     const { filteredCharacters, isLoading, error } = this.context;
 
     if (isLoading) {
-      return <div>{MESSAGES.LOADING}</div>;
+      return <div aria-label="Loading data, please wait">{MESSAGES.LOADING}</div>;
     }
 
     if (error) {
