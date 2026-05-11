@@ -12,7 +12,7 @@ export class CardList extends Component<{}, {}> {
     const { filteredCharacters, isLoading, error } = this.context;
 
     if (isLoading) {
-      return <div aria-label="Loading data, please wait">{MESSAGES.LOADING}</div>;
+      return <div aria-label="Loading data, please wait" data-testid="mock-cardlist">{MESSAGES.LOADING}</div>;
     }
 
     if (error) {
@@ -24,7 +24,7 @@ export class CardList extends Component<{}, {}> {
     }
 
     return (
-      <div className={styles.cardlist}>
+      <div className={styles.cardlist} data-testid="mock-cardlist">
         {filteredCharacters.map((character) => (
           <Card key={character.id} character={character} />
         ))}
