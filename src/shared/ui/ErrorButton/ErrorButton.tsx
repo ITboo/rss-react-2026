@@ -1,40 +1,25 @@
-import { Component, type ReactNode } from "react";
+import { useState } from "react";
 import { MESSAGES } from "../../data/enums";
 import styles from './styles.module.css';
 
-type ErrButtonProps = Record<string, never>;
+export const ErrorButton = () => {
+  const [shouldThrowError, setShouldThrowError] = useState(false);
 
-type State = {
-  shouldThrowError: boolean;
-};
+  const handleClick = () => {
+    setShouldThrowError(true);
+  };
 
-export class ErrorButton extends Component<ErrButtonProps, State> {
-    constructor(props: ErrButtonProps) {
-      super(props);
-      this.state = {
-        shouldThrowError: false,
-      };
-    }
-  
-    private handleClick(): void {
-      this.setState({ shouldThrowError: true });
-    }
-  
-    public render(): ReactNode {
-      const { shouldThrowError } = this.state;
-  
-      if (shouldThrowError) {
-        throw new Error(MESSAGES.ERR_BTN);
-      }
-  
-      return (
-        <button
-          type="button"
-          onClick={() => this.handleClick()}
-          className={styles.btn}
-        >
-          DO NOT PUSH
-        </button>
-      );
-    }
+  if (shouldThrowError) {
+    throw new Error(MESSAGES.ERR_BTN);
   }
+
+  return (
+    <button
+      type="button"
+      onClick={handleClick}
+      className={styles.btn}
+    >
+      DO NOT PUSH
+    </button>
+  );
+};
